@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Data to API</title>
+</head>
+<body>
+  <h1>Post Data to API</h1>
+  
+  <label for="phoneNumber">Phone Number:</label>
+  <input type="text" id="phoneNumber" placeholder="Enter phone number">
+  
+  <button onclick="postData()">Post Data</button>
+  
+  <div id="responseData"></div>
+
+  <script>
+    function postData() {
+      const phoneNumber = document.getElementById('phoneNumber').value;
+
+      fetch('https://chimpu.xyz/api/post.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `phonenumber=${phoneNumber}`,
+    } )
+      .then(response => {
+        const headersData ={};
+        response.headers.forEach((value, name) => {
+          headersData[name] = value;
+        });
+
+        document.getElementById('responseData').innerText = JSON.stringify(headersData, null, 2);
+      })
+      .catch(error => console.error('Error posting data:', error));
+    }
+  </script>
+</body>
+</html>
